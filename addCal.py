@@ -1,4 +1,5 @@
 from ics import Calendar, Event
+import datetime
 c = Calendar()
 e = Event()
 
@@ -18,11 +19,17 @@ class TermCall:
         else:
             print("Podaj godzine rozpoczecia: (format 00:00)")
             start_time = input()
-            e.begin = date + ' ' + start_time
-            print("Podaj godzine zakonczenia: (format 00:00)")
-            end_time = input()
+            start_time_modify = date + ' ' + start_time + ':00'
+            start_time_obj = datetime.datetime.strptime(start_time_modify, '%Y-%m-%d %H:%M:%S')
+            start_time_after_str = start_time_obj + datetime.timedelta(hours=-1)
+            e.begin = str(start_time_after_str)
 
-            e.end = date + ' ' + end_time
+            #e.geo = "51.78;19.48"
+            print("Ile ma trwać wydarzenie (w minutach)")
+            end_time = int(input())
+            time_obj = datetime.datetime.strptime(start_time_modify, '%Y-%m-%d %H:%M:%S')
+            time_after_str = time_obj + datetime.timedelta(minutes=end_time)
+            e.end = str(time_after_str)
         print("Podaj lokalizacje wydarzenia lub zostaw puste pole: ")
         where = input()
         e.location = where
